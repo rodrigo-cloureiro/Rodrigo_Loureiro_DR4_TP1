@@ -53,11 +53,11 @@ public class GildedRose {
         }
     }
 
-    private void updateNormalItems(Item item) {
-        if (item.sellIn < 0) {
-            item.quality = decrease(item, 2, 0);
+    private void updateNormalItems(Item normal) {
+        if (normal.sellIn < 0) {
+            normal.quality = decrease(normal, 2, 0);
         } else {
-            item.quality = decrease(item, 1, 0);
+            normal.quality = decrease(normal, 1, 0);
         }
     }
 
