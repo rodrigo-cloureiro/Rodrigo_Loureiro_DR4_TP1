@@ -40,9 +40,9 @@ public class GildedRoseTest {
     public void foo() {
         app.updateQuality();
 
-        assertEquals("foo", app.items[0].name);
-        assertEquals(0, app.items[0].sellIn);
-        assertEquals(9, app.items[0].quality);
+        assertEquals("foo", items[0].name);
+        assertEquals(0, items[0].sellIn);
+        assertEquals(9, items[0].quality);
     }
 
     @Test
