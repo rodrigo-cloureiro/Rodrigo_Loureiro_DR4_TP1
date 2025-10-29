@@ -1,5 +1,8 @@
 package com.gildedrose;
 
+import com.gildedrose.updaters.ItemUpdater;
+import com.gildedrose.updaters.ItemUpdaterFactory;
+
 public class GildedRose {
     private final Item[] items;
 
@@ -9,63 +12,8 @@ public class GildedRose {
 
     public void updateQuality() {
         for (Item item : items) {
-            if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                // updateSulfuras(item); // Não sofrem alterações
-                continue;
-            }
-
-            item.sellIn -= 1;
-
-            switch (item.name) {
-                case "Backstage passes to a TAFKAL80ETC concert":
-                    updateBackstagePasses(item);
-                    break;
-                case "Aged Brie":
-                    updateAgedBrie(item);
-                    break;
-                default:
-                    updateNormalItems(item);
-            }
+            ItemUpdater updater = ItemUpdaterFactory.create(item);
+            updater.update(item);
         }
-    }
-
-    private void updateAgedBrie(Item agedBrie) {
-        if (agedBrie.sellIn < 0) {
-            agedBrie.quality = increase(agedBrie, 2, 50);
-        } else {
-            agedBrie.quality = increase(agedBrie, 1, 50);
-        }
-    }
-
-    private void updateSulfuras(Item sulfuras) {
-        // Não sofrem alterações
-    }
-
-    private void updateBackstagePasses(Item backstagePasses) {
-        if (backstagePasses.sellIn < 0) {
-            backstagePasses.quality = 0;
-        } else if (backstagePasses.sellIn < 6) {
-            backstagePasses.quality = increase(backstagePasses, 3, 50);
-        } else if (backstagePasses.sellIn < 11) {
-            backstagePasses.quality = increase(backstagePasses, 2, 50);
-        } else {
-            backstagePasses.quality = increase(backstagePasses, 1, 50);
-        }
-    }
-
-    private void updateNormalItems(Item normal) {
-        if (normal.sellIn < 0) {
-            normal.quality = decrease(normal, 2, 0);
-        } else {
-            normal.quality = decrease(normal, 1, 0);
-        }
-    }
-
-    private int increase(Item item, int amount, int min) {
-        return Math.min(item.quality + amount, min);
-    }
-
-    private int decrease(Item item, int amount, int max) {
-        return Math.max(item.quality - amount, max);
     }
 }
