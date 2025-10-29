@@ -1,7 +1,7 @@
 package com.gildedrose;
 
 public class GildedRose {
-    Item[] items;
+    private final Item[] items;
 
     public GildedRose(Item[] items) {
         this.items = items;
@@ -10,50 +10,62 @@ public class GildedRose {
     public void updateQuality() {
         for (Item item : items) {
             if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
+                // updateSulfuras(item); // Não sofrem alterações
                 continue;
             }
 
             item.sellIn -= 1;
 
-            if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                handleBackstagePasses(item);
-            } else if (item.name.equals("Aged Brie")) {
-                handleAgedBrie(item);
-            } else {
-                handleNormalItems(item);
+            switch (item.name) {
+                case "Backstage passes to a TAFKAL80ETC concert":
+                    updateBackstagePasses(item);
+                    break;
+                case "Aged Brie":
+                    updateAgedBrie(item);
+                    break;
+                default:
+                    updateNormalItems(item);
             }
         }
     }
 
-    private void handleAgedBrie(Item agedBrie) {
+    private void updateAgedBrie(Item agedBrie) {
         if (agedBrie.sellIn < 0) {
-            agedBrie.quality = Math.min(agedBrie.quality + 2, 50);
+            agedBrie.quality = increase(agedBrie, 2, 50);
         } else {
-            agedBrie.quality = Math.min(agedBrie.quality + 1, 50);
+            agedBrie.quality = increase(agedBrie, 2, 50);
         }
     }
 
-    private void handleSulfuras(Item sulfuras) {
+    private void updateSulfuras(Item sulfuras) {
         // Não sofrem alterações
     }
 
-    private void handleBackstagePasses(Item backstagePasses) {
+    private void updateBackstagePasses(Item backstagePasses) {
         if (backstagePasses.sellIn < 0) {
             backstagePasses.quality = 0;
         } else if (backstagePasses.sellIn < 6) {
-            backstagePasses.quality = Math.min(backstagePasses.quality + 3, 50);
+            backstagePasses.quality = increase(backstagePasses, 3, 50);
         } else if (backstagePasses.sellIn < 11) {
-            backstagePasses.quality = Math.min(backstagePasses.quality + 2, 50);
+            backstagePasses.quality = increase(backstagePasses, 2, 50);
         } else {
-            backstagePasses.quality = Math.min(backstagePasses.quality + 1, 50);
+            backstagePasses.quality = increase(backstagePasses, 1, 50);
         }
     }
 
-    private void handleNormalItems(Item item) {
+    private void updateNormalItems(Item item) {
         if (item.sellIn < 0) {
-            item.quality = Math.max(item.quality - 2, 0);
+            item.quality = decrease(item, 2, 0);
         } else {
-            item.quality = Math.max(item.quality - 1, 0);
+            item.quality = decrease(item, 1, 0);
         }
+    }
+
+    private int increase(Item item, int amount, int min) {
+        return Math.min(item.quality + amount, min);
+    }
+
+    private int decrease(Item item, int amount, int max) {
+        return Math.max(item.quality - amount, max);
     }
 }
