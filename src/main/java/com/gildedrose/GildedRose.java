@@ -18,20 +18,10 @@ class GildedRose {
                 }
             } else {
                 if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-
                     if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
-
-                        if (item.sellIn < 6) {
-                            if (item.quality < 50) {
-                                item.quality = item.quality + 1;
-                            }
-                        }
+                        handleBackstagePasses(item);
+                    } else {
+                        handleAgedBrie(item);
                     }
                 }
             }
@@ -49,13 +39,41 @@ class GildedRose {
                             }
                         }
                     } else {
-                        item.quality = item.quality - item.quality;
+                        item.quality = 0;
                     }
                 } else {
                     if (item.quality < 50) {
                         item.quality = item.quality + 1;
                     }
                 }
+            }
+        }
+    }
+
+    private void handleAgedBrie(Item agedBrie) {
+        if (agedBrie.sellIn < 0) {
+            agedBrie.quality = Math.min(agedBrie.quality + 2, 50);
+        } else {
+            agedBrie.quality = Math.min(agedBrie.quality + 1, 50);
+        }
+    }
+
+    private void handleSulfuras(Item sulfuras) {
+        // Não sofrem alterações
+    }
+
+    private void handleBackstagePasses(Item backstagePasses) {
+        backstagePasses.quality += 1;
+
+        if (backstagePasses.sellIn < 11) {
+            if (backstagePasses.quality < 50) {
+                backstagePasses.quality += 1;
+            }
+        }
+
+        if (backstagePasses.sellIn < 6) {
+            if (backstagePasses.quality < 50) {
+                backstagePasses.quality += 1;
             }
         }
     }
