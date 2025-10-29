@@ -33,7 +33,7 @@ public class GildedRose {
         if (agedBrie.sellIn < 0) {
             agedBrie.quality = increase(agedBrie, 2, 50);
         } else {
-            agedBrie.quality = increase(agedBrie, 2, 50);
+            agedBrie.quality = increase(agedBrie, 1, 50);
         }
     }
 
