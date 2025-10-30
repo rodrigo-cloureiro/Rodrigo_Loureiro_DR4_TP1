@@ -20,8 +20,8 @@ public class GildedRoseTest {
                 new Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 10, 49),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49),
-                // this conjured item does not work properly yet
-                new Item("Conjured Mana Cake", 3, 6)
+                new Item("Conjured Mana Cake", 3, 6),
+                new Item("Conjured Mana Cake", 3, 20)
         };
         this.app = new GildedRose(items);
     }
@@ -92,12 +92,27 @@ public class GildedRoseTest {
 
     @Test
     @DisplayName("Conjured perde qualidade 2x mais rápido")
-    @Disabled
     public void conjuredPerdeQualidadeDuasVezesMaisRapido() {
         Item conjured = items[9];
 
-        System.out.println(conjured);
         app.updateQuality();
-        System.out.println(conjured);
+
+        assertEquals("Conjured Mana Cake", conjured.name);
+        assertEquals(2, conjured.sellIn);
+        assertEquals(4, conjured.quality);
+    }
+
+    @Test
+    @DisplayName("Conjured perde qualidade 4x mais rápido após data de venda")
+    public void conjuredPerdeQualidadeQuatroVezesMaisRapidoAposDataDeVenda() {
+        Item conjured = items[10];
+
+        while (conjured.sellIn >= 0) {
+            app.updateQuality();
+        }
+
+        assertEquals("Conjured Mana Cake", conjured.name);
+        assertTrue(conjured.sellIn < 0);
+        assertEquals(10, conjured.quality);
     }
 }
