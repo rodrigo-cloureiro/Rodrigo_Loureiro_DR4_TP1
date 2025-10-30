@@ -1,5 +1,8 @@
 package com.gildedrose;
 
+import com.gildedrose.updaters.ItemUpdaterFactory;
+import com.gildedrose.updaters.UpdaterRegistry;
+
 public class TexttestFixture {
     public static void main(String[] args) {
         System.out.println("OMGHAI!");
@@ -17,7 +20,9 @@ public class TexttestFixture {
                 new Item("Conjured Mana Cake", 3, 6)
         };
 
-        GildedRose app = new GildedRose(items);
+        ItemUpdaterFactory factory = new ItemUpdaterFactory();
+        UpdaterRegistry.registerUpdaters(factory);
+        GildedRose app = new GildedRose(items, factory);
 
         int days = 2;
         if (args.length > 0) {

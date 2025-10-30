@@ -1,15 +1,17 @@
 package com.gildedrose.updaters;
 
-import com.gildedrose.Item;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class ItemUpdaterFactory {
-    public static ItemUpdater create(Item item) {
-        return switch (item.name) {
-            case "Aged Brie" -> new AgedBrieUpdater();
-            case "Backstage passes to a TAFKAL80ETC concert" -> new BackstagePassUpdater();
-            case "Sulfuras, Hand of Ragnaros" -> new SulfurasUpdater();
-            case "Conjured Mana Cake" -> new ConjuredUpdater();
-            default -> new DefaultUpdater();
-        };
+    private final Map<String, Supplier<ItemUpdater>> registry = new HashMap<>();
+
+    public void register(String itemName, Supplier<ItemUpdater> supplier) {
+        registry.put(itemName, supplier);
+    }
+
+    public ItemUpdater create(String itemName) {
+        return registry.getOrDefault(itemName, DefaultUpdater::new).get();
     }
 }

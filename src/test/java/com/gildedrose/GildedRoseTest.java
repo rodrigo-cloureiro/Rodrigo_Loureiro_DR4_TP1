@@ -1,5 +1,7 @@
 package com.gildedrose;
 
+import com.gildedrose.updaters.ItemUpdaterFactory;
+import com.gildedrose.updaters.UpdaterRegistry;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GildedRoseTest {
     private Item[] items;
     private GildedRose app;
+    private ItemUpdaterFactory factory;
 
     @BeforeEach
     public void setUp() {
@@ -23,7 +26,9 @@ public class GildedRoseTest {
                 new Item("Conjured Mana Cake", 3, 6),
                 new Item("Conjured Mana Cake", 3, 20)
         };
-        this.app = new GildedRose(items);
+        this.factory = new ItemUpdaterFactory();
+        UpdaterRegistry.registerUpdaters(factory);
+        this.app = new GildedRose(items, factory);
     }
 
     @AfterEach
@@ -33,6 +38,9 @@ public class GildedRoseTest {
         }
         if (this.app != null) {
             this.app = null;
+        }
+        if (this.factory != null) {
+            this.factory = null;
         }
     }
 
