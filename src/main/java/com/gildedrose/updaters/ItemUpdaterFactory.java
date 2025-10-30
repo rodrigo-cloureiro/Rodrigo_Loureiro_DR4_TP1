@@ -8,6 +8,7 @@ public class ItemUpdaterFactory {
             case "Aged Brie" -> new AgedBrieUpdater();
             case "Backstage passes to a TAFKAL80ETC concert" -> new BackstagePassUpdater();
             case "Sulfuras, Hand of Ragnaros" -> new SulfurasUpdater();
+            case "Conjured Mana Cake" -> new ConjuredUpdater();
             default -> new DefaultUpdater();
         };
     }
